@@ -53,7 +53,7 @@ public class DriverManager {
                         break;
                 }
                 log.info("Browser initialized: {}", selectedBrowser);
-                driver.navigate().to(demoblazeUrl);;
+                driver.navigate().to(demoblazeUrl);
             }
         }
         return driver;
