@@ -1,5 +1,6 @@
 package com.demoblaze.pom.pages;
 
+import com.demoblaze.utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -68,6 +69,10 @@ public class CartPage extends BasePage implements Page {
 
     @Override
     public boolean isAt() {
-        return false;
+        return WaitUtils.awaitForElements(
+                productsLabel,
+                productTable,
+                placeOrderButton
+        );
     }
 }
