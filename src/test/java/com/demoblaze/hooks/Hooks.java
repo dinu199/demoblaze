@@ -15,11 +15,13 @@ public class Hooks {
     @Before()
     public void setup() {
         driver.manage().deleteAllCookies();
-        log.info("Amazon page is loaded");
+        log.info("Demoblaze page is loaded");
     }
 
     @After()
     public void tearDown() {
-
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
