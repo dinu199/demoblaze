@@ -51,6 +51,15 @@ public class DriverManager {
                         edgeOptions.setPageLoadStrategy(PageLoadStrategy.EAGER);
                         driver = new EdgeDriver(edgeOptions);
                         break;
+                    default:
+                        log.warn("Unknown browser '{}', defaulting to Chrome", selectedBrowser);
+                        WebDriverManager.chromedriver().setup();
+                        ChromeOptions defaultOptions = new ChromeOptions();
+                        defaultOptions.addArguments("--start-maximized");
+                        defaultOptions.setPageLoadStrategy(PageLoadStrategy.EAGER);
+                        driver = new ChromeDriver(defaultOptions);
+                        selectedBrowser = "chrome";
+                        break;
                 }
                 log.info("Browser initialized: {}", selectedBrowser);
                 driver.navigate().to(demoblazeUrl);
