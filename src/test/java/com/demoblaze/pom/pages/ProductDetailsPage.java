@@ -2,9 +2,6 @@ package com.demoblaze.pom.pages;
 
 import com.demoblaze.pom.blocks.Header;
 import com.demoblaze.utils.WaitUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -48,19 +45,7 @@ public class ProductDetailsPage extends BasePage implements Page {
     }
 
     public void clickHeaderLink(String link) {
-        List<WebElement> headerLinks = driver.findElements(By.xpath("//a[@class='nav-link']"))
-                .stream().filter(element -> {
-                    try {
-                        return element.getText().trim().equalsIgnoreCase(link.trim());
-                    } catch (StaleElementReferenceException e) {
-                        return false;
-                    }
-                }).toList();
-
-        if (headerLinks.isEmpty()) {
-            throw new NoSuchElementException("No visible header link found with text: " + link);
-        }
-        headerLinks.get(0).click();
+        header.clickLink(link);
     }
 
     @Override
