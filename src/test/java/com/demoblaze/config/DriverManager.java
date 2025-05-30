@@ -58,4 +58,13 @@ public class DriverManager {
         }
         return driver;
     }
+
+    public static void closeDriver() {
+        synchronized (DriverManager.class) {
+            if (driver != null) {
+                driver.quit();
+                driver = null;
+            }
+        }
+    }
 }
