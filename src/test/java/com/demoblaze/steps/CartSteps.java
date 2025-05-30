@@ -7,6 +7,9 @@ import io.cucumber.java.en.Then;
 import io.cucumber.spring.ScenarioScope;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+import java.util.Map;
+
 @ScenarioScope
 public class CartSteps {
 
@@ -20,15 +23,16 @@ public class CartSteps {
 
     @And("user completes the order form")
     public void userCompletesTheOrderForm(DataTable dataTable) {
-        // Using a single row data table with headers to pass form values
-        var data = dataTable.asMaps().get(0);
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        Map<String, String> form = data.get(0);
+
         cartPage.completeForm(
-                data.get("name"),
-                data.get("country"),
-                data.get("city"),
-                data.get("creditCard"),
-                data.get("month"),
-                data.get("year")
+                form.get("name"),
+                form.get("country"),
+                form.get("city"),
+                form.get("creditCard"),
+                form.get("month"),
+                form.get("year")
         );
     }
 
