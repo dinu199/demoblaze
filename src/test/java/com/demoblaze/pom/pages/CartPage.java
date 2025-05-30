@@ -5,10 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
-
-import java.time.Duration;
 
 @Component
 public class CartPage extends BasePage implements Page {
@@ -33,10 +30,6 @@ public class CartPage extends BasePage implements Page {
 
     @FindBy(xpath = "//div[@class='sweet-alert  showSweetAlert visible']")
     private WebElement confirmationForm;
-
-    private WebDriverWait getWait() {
-        return new WebDriverWait(driver, Duration.ofSeconds(5));
-    }
 
     public void clickPlaceOrder() {
         placeOrderButton.click();
