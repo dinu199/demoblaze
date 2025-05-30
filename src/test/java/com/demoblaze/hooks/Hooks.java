@@ -5,6 +5,7 @@ import io.cucumber.java.Before;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.demoblaze.config.DriverManager;
 
 @Slf4j
 public class Hooks {
@@ -20,8 +21,6 @@ public class Hooks {
 
     @After()
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        DriverManager.closeDriver();
     }
 }
