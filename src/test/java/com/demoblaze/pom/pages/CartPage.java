@@ -48,7 +48,6 @@ public class CartPage extends BasePage implements Page {
         placeOrderForm.findElement(By.id("name")).sendKeys(name);
         placeOrderForm.findElement(By.id("country")).sendKeys(country);
         placeOrderForm.findElement(By.id("city")).sendKeys(city);
-        placeOrderForm.findElement(By.id("city")).sendKeys(city);
         placeOrderForm.findElement(By.id("card")).sendKeys(creditCard);
         placeOrderForm.findElement(By.id("month")).sendKeys(month);
         placeOrderForm.findElement(By.id("year")).sendKeys(year);
