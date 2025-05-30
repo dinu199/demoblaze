@@ -1,6 +1,7 @@
 package com.demoblaze.steps;
 
 import com.demoblaze.pom.pages.CartPage;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.spring.ScenarioScope;
@@ -18,8 +19,17 @@ public class CartSteps {
     }
 
     @And("user completes the order form")
-    public void userCompletesTheOrderForm() {
-        cartPage.completeForm("Jonny", "Mexico", "Monterrey", "4568", "03", "1999");
+    public void userCompletesTheOrderForm(DataTable dataTable) {
+        // Using a single row data table with headers to pass form values
+        var data = dataTable.asMaps().get(0);
+        cartPage.completeForm(
+                data.get("name"),
+                data.get("country"),
+                data.get("city"),
+                data.get("creditCard"),
+                data.get("month"),
+                data.get("year")
+        );
     }
 
     @Then("user checks and confirms order")

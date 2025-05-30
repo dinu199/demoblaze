@@ -9,5 +9,7 @@ Feature: Create order
     And user clicks on "Cart" link
     And user places an order
     And user completes the order form
+      | name  | country | city       | creditCard | month | year |
+      | Jonny | Mexico  | Monterrey  | 4568       | 03    | 1999 |
     Then user checks and confirms order
 
