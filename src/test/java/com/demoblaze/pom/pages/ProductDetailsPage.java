@@ -2,18 +2,11 @@ package com.demoblaze.pom.pages;
 
 import com.demoblaze.pom.blocks.Header;
 import com.demoblaze.utils.WaitUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.Duration;
-import java.util.List;
 
 @Component
 public class ProductDetailsPage extends BasePage implements Page {
@@ -36,10 +29,6 @@ public class ProductDetailsPage extends BasePage implements Page {
     @FindBy(xpath = "//a[@class='btn btn-success btn-lg']")
     private WebElement addToCartButton;
 
-    private WebDriverWait getWait() {
-        return new WebDriverWait(driver, Duration.ofSeconds(5));
-    }
-
     public void clickAddToCartButton() {
         getWait().until(ExpectedConditions.visibilityOf(addToCartButton));
         addToCartButton.click();
@@ -54,19 +43,7 @@ public class ProductDetailsPage extends BasePage implements Page {
     }
 
     public void clickHeaderLink(String link) {
-        List<WebElement> headerLinks = driver.findElements(By.xpath("//a[@class='nav-link']"))
-                .stream().filter(element -> {
-                    try {
-                        return element.getText().trim().equalsIgnoreCase(link.trim());
-                    } catch (StaleElementReferenceException e) {
-                        return false;
-                    }
-                }).toList();
-
-        if (headerLinks.isEmpty()) {
-            throw new NoSuchElementException("No visible header link found with text: " + link);
-        }
-        headerLinks.get(0).click();
+        header.clickLink(link);
     }
 
     @Override
