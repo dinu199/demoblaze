@@ -103,16 +103,23 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- CUCUMBER REPORTING -->
-		<dependency>
-			<groupId>net.masterthought</groupId>
-			<artifactId>cucumber-reporting</artifactId>
-			<version>5.8.4</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
+                <!-- CUCUMBER REPORTING -->
+                <dependency>
+                        <groupId>net.masterthought</groupId>
+                        <artifactId>cucumber-reporting</artifactId>
+                        <version>5.8.4</version>
+                </dependency>
+                <!-- AWAITILITY (FOR UTILS LIKE WAITUTILS) -->
+                <dependency>
+                        <groupId>org.awaitility</groupId>
+                        <artifactId>awaitility</artifactId>
+                        <version>4.2.0</version>
+                        <scope>test</scope>
+                </dependency>
+                <dependency>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                </dependency>
 
 	</dependencies>
 
