@@ -48,19 +48,7 @@ public class ProductDetailsPage extends BasePage implements Page {
     }
 
     public void clickHeaderLink(String link) {
-        List<WebElement> headerLinks = driver.findElements(By.xpath("//a[@class='nav-link']"))
-                .stream().filter(element -> {
-                    try {
-                        return element.getText().trim().equalsIgnoreCase(link.trim());
-                    } catch (StaleElementReferenceException e) {
-                        return false;
-                    }
-                }).toList();
-
-        if (headerLinks.isEmpty()) {
-            throw new NoSuchElementException("No visible header link found with text: " + link);
-        }
-        headerLinks.get(0).click();
+        header.clickLink(link);
     }
 
     @Override
