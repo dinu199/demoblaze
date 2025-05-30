@@ -46,7 +46,7 @@ public class HomePage extends BasePage implements Page {
     }
 
     public void clickProduct(String product) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = getWait();
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         List<WebElement> visibleCards = (List<WebElement>) js.executeScript(

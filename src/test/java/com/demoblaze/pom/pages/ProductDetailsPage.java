@@ -36,10 +36,6 @@ public class ProductDetailsPage extends BasePage implements Page {
     @FindBy(xpath = "//a[@class='btn btn-success btn-lg']")
     private WebElement addToCartButton;
 
-    private WebDriverWait getWait() {
-        return new WebDriverWait(driver, Duration.ofSeconds(5));
-    }
-
     public void clickAddToCartButton() {
         getWait().until(ExpectedConditions.visibilityOf(addToCartButton));
         addToCartButton.click();
