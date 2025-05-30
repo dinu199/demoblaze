@@ -58,7 +58,7 @@ public class WaitUtils {
                     .until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
             return true;
         } catch (Exception e) {
-            System.err.println("Timeout occurred while waiting for elements: " + e.getMessage());
+            log.error("Timeout occurred while waiting for elements: {}", e.getMessage());
             return false;
         }
     }
