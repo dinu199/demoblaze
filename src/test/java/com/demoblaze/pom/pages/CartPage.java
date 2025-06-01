@@ -101,6 +101,27 @@ public class CartPage extends BasePage implements Page {
         }
     }
 
+    /**
+     * Removes every product currently displayed in the cart table.
+     * This method relies solely on page object interactions and waits
+     * for each row to disappear before continuing with the next one.
+     */
+    public void clearCart() {
+        WebDriverWait wait = getWait();
+
+        // Locate all delete links inside the cart table
+        List<WebElement> deleteLinks = productTable.findElements(By.linkText("Delete"));
+        while (!deleteLinks.isEmpty()) {
+            WebElement firstDelete = deleteLinks.get(0);
+            wait.until(ExpectedConditions.elementToBeClickable(firstDelete));
+            firstDelete.click();
+
+            // Wait for the row associated with the delete link to be removed
+            wait.until(ExpectedConditions.stalenessOf(firstDelete));
+            deleteLinks = productTable.findElements(By.linkText("Delete"));
+        }
+    }
+
     public void checkCartIsEmpty() {
         List<WebElement> rows = productTable.findElements(By.xpath(".//tr[@class='success']"));
 
