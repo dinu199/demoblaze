@@ -14,7 +14,8 @@ public class HomeSteps {
     private HomePage homePage;
 
     @Given("home page is displayed")
-    public void testUrl() {
+    public void homePageIsDisplayed() {
+        homePage.openHomePage();
         assertThatPageIsOpened(homePage);
     }
 

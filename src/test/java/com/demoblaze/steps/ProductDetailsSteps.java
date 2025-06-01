@@ -28,7 +28,7 @@ public class ProductDetailsSteps {
         productDetailsPage.dismissAlert();
     }
 
-    @And("user clicks on {string} link")
+    @And("user clicks on {string} button")
     public void userClicksOnLink(String link) {
         productDetailsPage.clickHeaderLink(link);
     }
