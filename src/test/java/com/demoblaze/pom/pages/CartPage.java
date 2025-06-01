@@ -1,13 +1,20 @@
 package com.demoblaze.pom.pages;
 
 import com.demoblaze.utils.WaitUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.List;
+
 @Component
+@Slf4j
 public class CartPage extends BasePage implements Page {
 
     @FindBy(xpath = "//h2[(text()='Products')]")
@@ -58,6 +65,51 @@ public class CartPage extends BasePage implements Page {
         confirmationForm.findElement(By.xpath("//button[@class='confirm btn btn-lg btn-primary']")).isDisplayed();
 
         confirmationForm.findElement(By.xpath("//button[@class='confirm btn btn-lg btn-primary']")).click();
+    }
+
+    public void removeProductsFromCart(List<String> products) {
+        WebDriverWait wait = getWait();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//tr[@class='success']")));
+
+        List<WebElement> rows = productTable.findElements(By.xpath(".//tr[@class='success']"));
+
+        for (WebElement row : rows) {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            if (cells.size() >= 4) {
+                String productName = cells.get(1).getText().trim();
+
+                for (String targetProduct : products) {
+                    if (productName.equalsIgnoreCase(targetProduct.trim())) {
+                        WebElement deleteLink = cells.get(3).findElement(By.linkText("Delete"));
+                        wait.until(ExpectedConditions.elementToBeClickable(deleteLink));
+                        deleteLink.click();
+
+                        wait.until(ExpectedConditions.stalenessOf(row));
+                        break;
+                    } else {
+                        throw new NoSuchElementException("Element not found");
+                    }
+                }
+            }
+        }
+    }
+
+    public void checkCartIsEmpty() {
+        List<WebElement> rows = productTable.findElements(By.xpath(".//tr[@class='success']"));
+
+        if (rows.isEmpty()) {
+            log.info("Cart is Empty!");
+        } else {
+            StringBuilder products = new StringBuilder();
+            for (WebElement row : rows) {
+                List<WebElement> cells = row.findElements(By.tagName("td"));
+
+                if (cells.size() >= 2) {
+                 products.append(cells.get(1).getText()).append(", ");
+                }
+            }
+            throw new AssertionError("Cart is not empty: " + products);
+        }
     }
 
     @Override

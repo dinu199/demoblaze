@@ -2,15 +2,15 @@ package com.demoblaze.pom.pages;
 
 import com.demoblaze.pom.blocks.Header;
 import com.demoblaze.utils.WaitUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
+@Slf4j
 public class ProductDetailsPage extends BasePage implements Page {
 
     @Autowired
@@ -32,9 +32,12 @@ public class ProductDetailsPage extends BasePage implements Page {
     private WebElement addToCartButton;
 
     public void clickAddToCartButton() {
+        String product = productTitle.getText();
+        log.info("Currently on product detail page for: {}", product);
         getWait().until(ExpectedConditions.visibilityOf(addToCartButton));
         addToCartButton.click();
     }
+
 
     public void checkAlertIsDisplayed() {
         getWait().until(ExpectedConditions.alertIsPresent());

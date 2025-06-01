@@ -40,4 +40,16 @@ public class CartSteps {
     public void confirmationMessagePopsUp() {
         cartPage.checkAndConfirmOrder();
     }
+
+    @And("user removes product from cart")
+    public void userRemovesProductFromCart(DataTable dataTable) {
+        List<String> data = dataTable.asList();
+
+        cartPage.removeProductsFromCart(data);
+    }
+
+    @Then("cart should be empty")
+    public void cartShouldBeEmpty() {
+        cartPage.checkCartIsEmpty();
+    }
 }

@@ -16,7 +16,7 @@ import java.time.Duration;
 @Component
 public class BasePage {
 
-    private static final long DEFAULT_WAIT_SECONDS = 5L;
+    private static final long DEFAULT_WAIT_SECONDS = 8L;
 
     @Autowired
     protected WebDriver driver;
