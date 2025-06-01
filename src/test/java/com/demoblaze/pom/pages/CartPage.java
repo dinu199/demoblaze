@@ -73,24 +73,31 @@ public class CartPage extends BasePage implements Page {
 
         List<WebElement> rows = productTable.findElements(By.xpath(".//tr[@class='success']"));
 
-        for (WebElement row : rows) {
-            List<WebElement> cells = row.findElements(By.tagName("td"));
-            if (cells.size() >= 4) {
-                String productName = cells.get(1).getText().trim();
+        for (String targetProduct : products) {
+            boolean found = false;
 
-                for (String targetProduct : products) {
+            for (WebElement row : rows) {
+                List<WebElement> cells = row.findElements(By.tagName("td"));
+                if (cells.size() >= 4) {
+                    String productName = cells.get(1).getText().trim();
+
                     if (productName.equalsIgnoreCase(targetProduct.trim())) {
                         WebElement deleteLink = cells.get(3).findElement(By.linkText("Delete"));
                         wait.until(ExpectedConditions.elementToBeClickable(deleteLink));
                         deleteLink.click();
 
                         wait.until(ExpectedConditions.stalenessOf(row));
+                        found = true;
                         break;
-                    } else {
-                        throw new NoSuchElementException("Element not found");
                     }
                 }
             }
+
+            if (!found) {
+                throw new NoSuchElementException("Product '" + targetProduct + "' not found.");
+            }
+
+            rows = productTable.findElements(By.xpath(".//tr[@class='success']"));
         }
     }
 
