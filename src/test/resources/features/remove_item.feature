@@ -8,5 +8,4 @@ Feature: Remove item
     And successful alert pops up
     And user clicks on "Cart" button
     And user removes product from cart
-      | MacBook air |
     Then cart should be empty

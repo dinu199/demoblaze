@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -92,52 +92,60 @@ public class CartPage extends BasePage implements Page {
                     }
                 }
             }
-
             if (!found) {
                 throw new NoSuchElementException("Product '" + targetProduct + "' not found.");
             }
-
             rows = productTable.findElements(By.xpath(".//tr[@class='success']"));
         }
     }
 
-    /**
-     * Removes every product currently displayed in the cart table.
-     * This method relies solely on page object interactions and waits
-     * for each row to disappear before continuing with the next one.
-     */
     public void clearCart() {
         WebDriverWait wait = getWait();
 
-        // Locate all delete links inside the cart table
         List<WebElement> deleteLinks = productTable.findElements(By.linkText("Delete"));
         while (!deleteLinks.isEmpty()) {
             WebElement firstDelete = deleteLinks.get(0);
             wait.until(ExpectedConditions.elementToBeClickable(firstDelete));
             firstDelete.click();
 
-            // Wait for the row associated with the delete link to be removed
             wait.until(ExpectedConditions.stalenessOf(firstDelete));
             deleteLinks = productTable.findElements(By.linkText("Delete"));
         }
     }
 
-    public void checkCartIsEmpty() {
+    public List<String> getActualCartProductNames() {
+        WebDriverWait wait = getWait();
+        List<String> productNames = new ArrayList<>();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//tr[@class='success']")));
         List<WebElement> rows = productTable.findElements(By.xpath(".//tr[@class='success']"));
 
-        if (rows.isEmpty()) {
-            log.info("Cart is Empty!");
-        } else {
-            StringBuilder products = new StringBuilder();
-            for (WebElement row : rows) {
-                List<WebElement> cells = row.findElements(By.tagName("td"));
-
-                if (cells.size() >= 2) {
-                 products.append(cells.get(1).getText()).append(", ");
-                }
+        for (WebElement row : rows) {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            if (cells.size() >= 2) {
+                productNames.add(0, cells.get(1).getText().trim());
             }
-            throw new AssertionError("Cart is not empty: " + products);
         }
+        return productNames;
+    }
+
+    public boolean validateTotalPrice() {
+        List<WebElement> rows = productTable.findElements(By.xpath(".//tr[@class='success']"));
+        int expectedTotal = 0;
+        int actualTotal = Integer.parseInt(totalPrice.getText());
+        boolean isCorrectlyCalculated = false;
+
+        for (WebElement row : rows) {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            if (cells.size() >= 3) {
+                expectedTotal += Integer.parseInt(cells.get(2).getText().trim());
+            }
+        }
+
+        if (expectedTotal == actualTotal) {
+            isCorrectlyCalculated = true;
+        }
+
+        return isCorrectlyCalculated;
     }
 
     @Override
